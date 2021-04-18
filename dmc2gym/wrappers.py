@@ -85,11 +85,11 @@ class DMCWrapper(core.Env):
             self._observation_space = _spec_to_box(
                 self._env.observation_spec().values()
             )
-            
+
         self._state_space = _spec_to_box(
                 self._env.observation_spec().values()
         )
-        
+
         self.current_state = None
 
         # set seed
@@ -138,6 +138,7 @@ class DMCWrapper(core.Env):
         self._observation_space.seed(seed)
 
     def step(self, action):
+        action = np.clip(action, -1, 1)
         assert self._norm_action_space.contains(action)
         action = self._convert_action(action)
         assert self._true_action_space.contains(action)
